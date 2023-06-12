@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.mapper.UserMapper">
+    <!-- 单条记录所封装的类型 -->
+    <select id="listXml" resultType="com.mybatis.pojo.User">
+        select * from worker_info where name like concat('%', #{name}, '%')
+                                    and gender = #{gender} and age >= #{minAge};
+    </select>
+
+    <select id="listActive" resultType="com.mybatis.pojo.User">
+        select * from worker_info
+        <where>
+            <if test="name != null">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="age != null">
+                and age >= #{age}
+            </if>
+        order by age Desc;
+        </where>
+    </select>
+
+    <!-- 批量删除数据 -->
+    <!--
+        collection:遍历的集合
+        tiem:遍历出来的元素
+        separator: 分隔符
+        open:遍历开始前拼接的sql片段
+        close:遍历结束后拼接的sql片段
+        执行后的sql语句:delete from work_info where id in ();
+    -->
+    <delete id="deleteById">
+        delete from worker_info where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
