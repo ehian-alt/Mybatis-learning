@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -75,4 +76,25 @@ class MvnMybatisApplicationTests {
         System.out.println(userList);
     }
 
+    // XML映射测试方法，条件查询
+    @Test
+    public void testListXml(){
+        // listXml(String name, short gender, short minAge)
+        List<User> userList = userMapper.listXml("罗", (short) 1, (short) 20);
+        System.out.println(userList);
+    }
+
+    // 动态sql--where if 查询测试方法，条件查询 listXml(String name, short gender, short minAge)
+    @Test
+    public void testActiveXml() {
+        List<User> userList = userMapper.listActive(null, (short) 1, null);
+        System.out.println(userList);
+    }
+
+    // 动态删除
+    @Test
+    public void testDeleteActive(){
+        List<Integer> ids = Arrays.asList(1,3,5);
+        userMapper.deleteById(ids);
+    }
 }

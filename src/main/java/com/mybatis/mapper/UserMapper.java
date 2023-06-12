@@ -51,8 +51,17 @@ public interface UserMapper {
 //    @Select("select * from worker_info where name like '%${name}%' and" +
 //            " gender = #{gender} and age >= #{minAge};")
 //    public List<User> listIf(String name, short gender, short minAge);
-
+    // 使用concat函数
     @Select("select * from worker_info where name like concat('%', #{name}, '%') and" +
             " gender = #{gender} and age >= #{minAge};")
     public List<User> listIf(String name, short gender, short minAge);
+
+    // 测试xml映射
+    public List<User> listXml(String name, short gender, short minAge);
+
+    // 测试动态sql--if
+    public List<User> listActive(String name, Short gender, Short age);
+
+    // 动态删除数据
+    public void deleteById(List<Integer> ids);
 }
